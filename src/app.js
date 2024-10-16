@@ -2,8 +2,12 @@ const express = require("express");
 const app = express();
 const Restaurant = require("../models/index")
 const db = require("../db/connection");
+const {router} = require("../routes/restaurants")
 
 //TODO: Create your GET Request Route Below: 
+app.use(express.json())
+app.use(express.urlencoded());
+app.use('/routes', router);
 
 app.get("/restaurants", async (request, response) =>{
     const restaurants = await Restaurant.findAll();
@@ -16,12 +20,11 @@ app.get("/restaurants/:id", async (request, response) =>{
     
 })
 
-app.use(express.json())
-app.use(express.urlencoded());
+
 
 app.post("/restaurants", async (req,res) =>{
     await Restaurant.create(req.body)
-    restaurants = await Restaurant.findAll();
+    const restaurants = await Restaurant.findAll();
     res.json(restaurants)
 });
 
