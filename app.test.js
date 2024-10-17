@@ -1,7 +1,6 @@
 const request = require('supertest');
-const app = require('./src/app');
-const Restaurant = require('./models/Restaurant');
-
+const app= require('./src/app');
+const {Restaurant} = require('./models/index')
 let restaurants = []
 
 describe("GET / route", () =>{
@@ -58,4 +57,11 @@ describe("GET / route", () =>{
         const response = await request(app).get("/routes");
         expect(response.body).toEqual(restaurants);
     });
+    test("Cannot input empty values", async () =>{
+        const response = await request(app).post("/routes").send({name : "", location: "", cuisine: ""});
+        expect(response.statusCode).toBe(200);
+        expect(response.body.error[0].msg).toEqual("Invalid value");
+
+    })
 })
+
