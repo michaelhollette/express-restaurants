@@ -63,5 +63,11 @@ describe("GET / route", () =>{
         expect(response.body.error[0].msg).toEqual("Invalid value");
 
     })
+    test("Cannot input name of too many or too few characters", async () =>{
+        const response = await request(app).post("/routes").send({name : "Ali Baba", location: "London", cuisine: "Turksih"});
+        expect(response.statusCode).toBe(200);
+        expect(response.body.error[0].msg).toEqual("Invalid value");
+
+    })
 })
 
